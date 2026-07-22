@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV | Glen Arga Firizky Sinabutar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0D0D0D',
+            card: '#161618',
+            border: '#27272A',
+            purple: '#A855F7',
+            muted: '#A1A1AA',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Poppins', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: #0D0D0D;
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(168, 85, 247, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse 70% 50% at 50% 30%, black 10%, transparent 70%);
+    }
+
+    .glass {
+      background: rgba(22, 22, 24, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid #27272A;
+    }
+
+    .cv-scene {
+      perspective: 1400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 65vh;
+      padding: 1rem;
+    }
+
+    .cv-card {
+      width: 100%;
+      max-width: 720px;
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+      position: relative;
+    }
+
+    .cv-card-inner {
+      background: linear-gradient(165deg, #1a1a1e 0%, #0f0f12 100%);
+      border-radius: 28px;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow:
+        0 0 40px rgba(168, 85, 247, 0.18),
+        0 30px 60px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cv-card-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #A855F7, #84CC16, #A855F7);
+    }
+
+    .btn-download {
+      background: linear-gradient(135deg, #A855F7 0%, #9333EA 100%);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.55), 0 12px 25px rgba(0,0,0,0.3);
+    }
+
+    .btn-download::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .btn-download:hover::after {
+      transform: translateX(100%);
+    }
+
+    .skill-tag {
+      transition: all 0.25s ease;
+    }
+
+    .skill-tag:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: #A855F7;
+      transform: translateY(-2px);
+    }
+
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .cv-card-inner {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        background: white !important;
+        color: black !important;
+      }
+      .cv-card-inner * { color: black !important; }
+      .grid-bg { display: none !important; }
+      .cv-scene { perspective: none !important; min-height: auto !important; }
+      .cv-card { transform: none !important; }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen">
+  <div class="grid-bg no-print"></div>
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-[#27272A] no-print">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#A855F7] to-[#9333EA] flex items-center justify-center font-bold text-sm">GS</div>
+        <span class="font-display font-semibold tracking-tight text-lg">Glen Sinabutar</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#A1A1AA]">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <a href="gallery.html" class="hover:text-white transition-colors">Pictures</a>
+        <a href="cv.html" class="text-[#A855F7]">CV</a>
+        <a href="index.html#contact" class="hover:text-white transition-colors">Contact</a>
+      </div>
+      <a href="index.html" class="text-sm text-[#A1A1AA] hover:text-white transition flex items-center gap-2">
+        <i class="fas fa-arrow-left text-xs"></i> Back
+      </a>
+    </div>
+  </nav>
+
+  <!-- HEADER + DOWNLOAD -->
+  <section class="relative z-10 pt-28 pb-6 no-print">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="text-[#A855F7] text-sm font-semibold tracking-[3px] uppercase mb-3">Curriculum Vitae</p>
+      <h1 class="font-display text-4xl md:text-5xl font-bold mb-3">
+        Interactive <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#A855F7] to-[#C084FC]">CV</span>
+      </h1>
+      <p class="text-[#A1A1AA] mb-8 text-sm md:text-base">Hover & move your mouse over the card for 3D interactive effect</p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="downloadCV()" class="btn-download inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold text-white">
+          <i class="fas fa-download"></i>
+          Download CV (PDF)
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold border border-[#27272A] hover:border-[#A855F7]/50 text-[#A1A1AA] hover:text-white transition-all">
+          <i class="fas fa-print"></i>
+          Print
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D CV CARD -->
+  <section class="relative z-10 pb-20">
+    <div class="cv-scene" id="cv-scene">
+      <div class="cv-card" id="cv-card">
+        <div class="cv-card-inner p-8 md:p-10">
+
+          <!-- Header Profile -->
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8 pb-8 border-b border-white/10">
+            <div class="w-28 h-28 rounded-2xl overflow-hidden border-2 border-[#A855F7]/40 flex-shrink-0 shadow-[0_0_25px_rgba(168,85,247,0.3)]">
+              <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" 
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w300'"
+                   alt="Glen Arga Firizky Sinabutar" class="w-full h-full object-cover">
+            </div>
+            <div class="text-center sm:text-left">
+              <h2 class="font-display text-2xl md:text-3xl font-bold leading-tight">Glen Arga Firizky Sinabutar</h2>
+              <p class="text-[#A855F7] font-medium mt-1">Content Creator • Video Editor • Photographer</p>
+              <div class="flex flex-wrap justify-center sm:justify-start gap-4 mt-4 text-sm text-[#A1A1AA]">
+                <span><i class="fas fa-envelope mr-1.5 text-[#A855F7]"></i> Available on request</span>
+                <a href="https://www.instagram.com/glenargafiriskysinabutar?igsh=bTBiaXp1YW5nb2ln" target="_blank" class="hover:text-[#A855F7] transition">
+                  <i class="fab fa-instagram mr-1.5"></i> Instagram
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div class="mb-8">
+            <h3 class="font-display text-lg font-semibold mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-[#A855F7] rounded-full"></span>
+              About Me
+            </h3>
+            <p class="text-[#A1A1AA] text-sm leading-relaxed">
+              A passionate explorer of technology and creative arts. From capturing moments through photography and singing my heart out, to diving into gaming and discovering cool tech innovations—if it’s memorable and inspiring, I’m all in.
+            </p>
+          </div>
+
+          <!-- Skills -->
+          <div class="mb-8">
+            <h3 class="font-display text-lg font-semibold mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-[#A855F7] rounded-full"></span>
+              Skills & Tools
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">CapCut</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Photographer</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Video Editing</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Content Creator</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Narrator</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Photography</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Cover Lagu</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Roblox Creator</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Discord</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">ChatGPT</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Grok</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Claude AI</span>
+              <span class="skill-tag px-3 py-1.5 rounded-full border border-[#27272A] text-xs text-[#A1A1AA]">Gemini</span>
+            </div>
+          </div>
+
+          <!-- Focus Areas -->
+          <div class="mb-8">
+            <h3 class="font-display text-lg font-semibold mb-4 flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-[#A855F7] rounded-full"></span>
+              Focus Areas
+            </h3>
+            <div class="space-y-4">
+              <div class="flex gap-4">
+                <div class="w-2 h-2 mt-2 rounded-full bg-[#A855F7] flex-shrink-0"></div>
+                <div>
+                  <h4 class="font-medium">Video Content & Editing</h4>
+                  <p class="text-sm text-[#A1A1AA] mt-0.5">Creating and editing cinematic short-form & long-form videos using CapCut.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-2 h-2 mt-2 rounded-full bg-[#A855F7] flex-shrink-0"></div>
+                <div>
+                  <h4 class="font-medium">Photography & Photographer</h4>
+                  <p class="text-sm text-[#A1A1AA] mt-0.5">Capturing memorable moments with creative composition and visual storytelling.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-2 h-2 mt-2 rounded-full bg-[#A855F7] flex-shrink-0"></div>
+                <div>
+                  <h4 class="font-medium">Content Creation & Music</h4>
+                  <p class="text-sm text-[#A1A1AA] mt-0.5">Song covers, narration, and engaging digital content across platforms.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-2 h-2 mt-2 rounded-full bg-[#A855F7] flex-shrink-0"></div>
+                <div>
+                  <h4 class="font-medium">Roblox Creator & Gaming</h4>
+                  <p class="text-sm text-[#A1A1AA] mt-0.5">Building experiences and exploring creative tech in the Roblox ecosystem.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <h3 class="font-display text-lg font-semibold mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-5 bg-[#A855F7] rounded-full"></span>
+              Status
+            </h3>
+            <p class="text-sm">
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#84CC16]/10 text-[#84CC16] text-xs font-medium border border-[#84CC16]/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#84CC16] animate-pulse"></span>
+                Open to opportunities & collaborations
+              </span>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-[#27272A] py-8 no-print">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-[#71717A]">© 2026 Glen Arga Firizky Sinabutar</p>
+      <a href="https://www.instagram.com/glenargafiriskysinabutar?igsh=bTBiaXp1YW5nb2ln" target="_blank" class="text-[#A1A1AA] hover:text-[#A855F7] transition text-xl">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // 3D Interactive Tilt
+    const card = document.getElementById('cv-card');
+    const scene = document.getElementById('cv-scene');
+
+    if (scene && card) {
+      scene.addEventListener('mousemove', (e) => {
+        const rect = scene.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -11;
+        const rotateY = ((x - centerX) / centerX) * 11;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      scene.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    }
+
+    // Download = Print → Save as PDF
+    function downloadCV() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
