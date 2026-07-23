@@ -375,6 +375,73 @@
       to { left: 120%; }
     }
 
+
+    /* Mobile hamburger menu */
+    .menu-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .menu-btn span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: #800020;
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .menu-btn.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .menu-btn.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-btn.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+    @media (min-width: 768px) {
+      .menu-btn { display: none; }
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 65px;
+      left: 0;
+      right: 0;
+      z-index: 49;
+      background: #fff;
+      border-bottom: 1px solid #E5E7EB;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      padding: 0.75rem 1.25rem 1.25rem;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .mobile-menu.open {
+      display: flex;
+    }
+    .mobile-menu a {
+      display: block;
+      padding: 0.85rem 0.75rem;
+      color: #374151;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a:active {
+      background: #FFF1F2;
+      color: #800020;
+    }
   </style>
 </head>
 <body class="relative">
@@ -383,10 +450,10 @@
 
   <!-- NAV -->
   <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-[#E5E7EB]">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-[#800020] text-white flex items-center justify-center font-bold text-sm">GS</div>
-        <span class="font-display font-semibold tracking-tight text-lg text-gray-900">Glen Sinabutar</span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#800020] text-white flex items-center justify-center font-bold text-xs sm:text-sm">GS</div>
+        <span class="font-display font-semibold tracking-tight text-base sm:text-lg text-gray-900">Glen Sinabutar</span>
       </div>
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#4B5563]">
         <a href="#projects" class="hover:text-[#800020] transition-colors">Projects</a>
@@ -396,11 +463,25 @@
         <a href="transfer.html" class="hover:text-[#800020] transition-colors">Transfer</a>
         <a href="#contact" class="hover:text-[#800020] transition-colors">Contact</a>
       </div>
-      <a href="cv.html" class="hidden sm:inline-flex px-5 py-2.5 rounded-full text-sm font-semibold border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all">
-        View CV
-      </a>
+      <div class="flex items-center gap-2">
+        <a href="cv.html" class="hidden sm:inline-flex px-5 py-2.5 rounded-full text-sm font-semibold border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all">
+          View CV
+        </a>
+        <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#projects" class="mobile-link">Projects</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="gallery.html" class="mobile-link">Pictures</a>
+    <a href="cv.html" class="mobile-link">CV</a>
+    <a href="transfer.html" class="mobile-link">Transfer</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
 
   <!-- HERO -->
   <section class="relative min-h-screen flex items-center pt-24 pb-16 z-10">
@@ -725,6 +806,23 @@
       el.classList.add('fade-up');
       observer.observe(el);
     });
+
+    // Mobile menu
+    (function () {
+      var btn = document.getElementById('menu-btn');
+      var menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('open');
+        menu.classList.toggle('open');
+      });
+      menu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          btn.classList.remove('open');
+          menu.classList.remove('open');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
