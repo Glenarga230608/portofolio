@@ -127,7 +127,8 @@
 
     .id-badge {
       width: 260px;
-      height: 360px;
+      height: auto;
+      min-height: 360px;
       background: #FFFFFF;
       border-radius: 24px;
       border: 2px solid #E5E7EB;
@@ -136,6 +137,38 @@
       position: relative;
       overflow: hidden;
       animation: flip-y 6s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 2.75rem;
+    }
+
+    .id-badge .badge-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .id-badge .badge-name {
+      font-size: 1.05rem;
+      line-height: 1.25;
+      padding: 0 0.75rem;
+      word-break: break-word;
+    }
+
+    .id-badge .badge-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: #6B7280;
+      border-top: 1px solid #E5E7EB;
+      background: #FAFAFA;
+      z-index: 2;
     }
 
     .id-badge:hover {
@@ -270,15 +303,43 @@
     }
 
     @media (max-width: 768px) {
+      .lanyard-container {
+        min-height: 320px;
+        padding: 0.5rem 0 1rem;
+      }
       .id-badge {
-        width: 200px;
-        height: 280px;
+        width: min(220px, 78vw);
+        min-height: 0;
+        height: auto;
+        padding-bottom: 2.4rem;
+        border-radius: 18px;
+      }
+      .id-badge .badge-photo {
+        width: 88px !important;
+        height: 88px !important;
+      }
+      .id-badge .badge-name {
+        font-size: 0.92rem;
+        line-height: 1.3;
+      }
+      .id-badge .badge-tags {
+        gap: 0.35rem;
+        margin-top: 0.65rem !important;
+      }
+      .id-badge .badge-tags span {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.45rem;
+      }
+      .id-badge .badge-footer {
+        font-size: 0.58rem;
+        padding: 0.55rem 0.35rem;
+        letter-spacing: 0.08em;
       }
       .circular-text {
-        width: 100px;
-        height: 100px;
-        top: -10px;
-        right: -10px;
+        width: 90px;
+        height: 90px;
+        top: -8px;
+        right: -8px;
       }
     }
 
@@ -302,26 +363,27 @@
     .id-badge::after {
       content: '';
       position: absolute;
-      top: -40%;
-      left: -50%;
-      width: 40%;
-      height: 180%;
+      top: 0;
+      left: -60%;
+      width: 35%;
+      height: 55%;
       background: linear-gradient(
         105deg,
-        transparent 35%,
-        rgba(255,255,255,0.55) 50%,
-        transparent 65%
+        transparent 30%,
+        rgba(255,255,255,0.35) 50%,
+        transparent 70%
       );
-      transform: rotate(25deg);
+      transform: skewX(-20deg);
       pointer-events: none;
-      animation: badge-shine 5s ease-in-out infinite;
+      z-index: 1;
+      animation: badge-shine 6s ease-in-out infinite;
     }
 
     @keyframes badge-shine {
-      0% { left: -50%; opacity: 0; }
-      15% { opacity: 1; }
-      45% { left: 120%; opacity: 1; }
-      50%, 100% { left: 120%; opacity: 0; }
+      0% { left: -60%; opacity: 0; }
+      12% { opacity: 0.7; }
+      40% { left: 110%; opacity: 0.5; }
+      50%, 100% { left: 110%; opacity: 0; }
     }
 
     .project-card {
@@ -545,31 +607,31 @@
 
           <div class="lanyard-container" id="badge-container">
             <div class="id-badge" id="id-badge">
-              <div class="pt-8 px-6 flex justify-between items-start">
-                <div class="text-[10px] tracking-[2px] text-[#4B5563] uppercase font-semibold">Portfolio ID</div>
-                <div class="w-8 h-8 rounded-full bg-[#800020] text-white flex items-center justify-center text-xs font-bold">GS</div>
+              <div class="pt-7 px-5 flex justify-between items-start w-full relative z-[2]">
+                <div class="text-[10px] tracking-[1.5px] text-[#4B5563] uppercase font-semibold">Portfolio ID</div>
+                <div class="w-7 h-7 rounded-full bg-[#800020] text-white flex items-center justify-center text-[11px] font-bold flex-shrink-0">GS</div>
               </div>
 
-              <div class="mt-6 flex justify-center">
-                <div class="w-28 h-28 rounded-2xl overflow-hidden border-2 border-[#800020]/20 neon-purple">
+              <div class="mt-4 flex justify-center relative z-[2]">
+                <div class="badge-photo w-28 h-28 rounded-2xl overflow-hidden border-2 border-[#800020]/25">
                   <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" 
                        alt="Glen Arga Firizky Sinabutar" 
-                       class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition duration-500"
+                       class="w-full h-full object-cover"
                        onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w500'">
                 </div>
               </div>
 
-              <div class="mt-5 text-center px-4">
-                <h3 class="font-display font-bold text-lg leading-tight text-gray-900">Glen Arga Firizky<br>Sinabutar</h3>
+              <div class="mt-4 text-center px-3 relative z-[2] w-full">
+                <h3 class="badge-name font-display font-bold text-gray-900">Glen Arga Firizky Sinabutar</h3>
                 <p class="text-[#800020] text-sm mt-1 font-semibold">Content Creator</p>
-                <div class="mt-4 flex justify-center gap-2 text-xs text-[#4B5563] flex-wrap">
+                <div class="badge-tags mt-3 flex justify-center gap-1.5 text-xs text-[#4B5563] flex-wrap">
                   <span class="px-2 py-1 rounded bg-gray-100">Video</span>
                   <span class="px-2 py-1 rounded bg-gray-100">Photo</span>
                   <span class="px-2 py-1 rounded bg-gray-100">Music</span>
                 </div>
               </div>
 
-              <div class="absolute bottom-0 left-0 right-0 py-3 text-center text-[10px] tracking-widest text-[#4B5563] border-t border-gray-200">
+              <div class="badge-footer">
                 VALID 2025 — 2026
               </div>
             </div>
