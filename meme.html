@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>introduction — Glen Sinabutar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FFFFFF;
+      color: #111827;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+    }
+
+    .topbar a {
+      color: #800020;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .topbar a:hover { opacity: 0.8; }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem 2.5rem;
+      gap: 1.25rem;
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      color: #111827;
+      text-align: center;
+    }
+
+    h1 span { color: #800020; }
+
+    .hint {
+      color: #6B7280;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 28rem;
+    }
+
+    .video-box {
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 16 / 9;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .video-box iframe,
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: #9CA3AF;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .placeholder i {
+      font-size: 2.5rem;
+      color: #800020;
+      opacity: 0.7;
+    }
+
+    .placeholder p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.12s, background 0.2s;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-main {
+      background: #800020;
+      color: #fff;
+    }
+
+    .btn-main:hover { background: #5B0017; }
+
+    .btn-outline {
+      background: #fff;
+      color: #800020;
+      border: 1px solid #800020;
+    }
+
+    .btn-outline:hover { background: #FFF1F2; }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.8rem;
+      color: #9CA3AF;
+      border-top: 1px solid #E5E7EB;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Kembali</a>
+    <span style="font-weight:600;color:#800020;">Meme Zone</span>
+  </div>
+
+  <div class="main">
+    <h1>introduction <span>Time</span></h1>
+    <p class="hint">Klik tombol di bawah kalau video belum otomatis muter (browser sering blokir autoplay + suara).</p>
+
+    <div class="video-box" id="video-box">
+      <!--
+        GANTI FILE_ID di bawah dengan ID video Google Drive kamu.
+        Cara ambil ID: buka link Drive → bagian /d/FILE_ID/view
+        Pastikan sharing: Anyone with the link
+      -->
+      <iframe
+        id="meme-player"
+        src="https://youtu.be/oEFSxtjbrq4?si=kCqNAnWWkhBf09lK"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        title="Meme video">
+      </iframe>
+
+      <!-- Fallback text kalau belum diisi ID -->
+      <div class="placeholder" id="placeholder" style="display:none;">
+        <i class="fas fa-film"></i>
+        <p>Belum ada video.<br>Kirim link Google Drive video meme-nya biar dipasang.</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-main" type="button" onclick="playLoud()">
+        <i class="fas fa-volume-high"></i> Play full volume
+      </button>
+      <a class="btn btn-outline" href="index.html">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Glen Arga Firizky Sinabutar</div>
+
+  <script>
+    // Cek apakah ID sudah diganti
+    var iframe = document.getElementById('meme-player');
+    if (iframe && iframe.src.indexOf('PASTE_FILE_ID_HERE') !== -1) {
+      iframe.style.display = 'none';
+      document.getElementById('placeholder').style.display = 'flex';
+    }
+
+    // Coba play ulang (user gesture) — Drive preview terbatas,
+    // tapi tombol ini memicu interaksi biar browser lebih permisif
+    function playLoud() {
+      var box = document.getElementById('video-box');
+      var old = document.getElementById('meme-player');
+      if (!old || old.src.indexOf('PASTE_FILE_ID_HERE') !== -1) {
+        alert('Isi dulu link video Google Drive-nya ya.');
+        return;
+      }
+      // Reload iframe dengan autoplay param (best-effort)
+      var src = old.src.split('?')[0] + '?autoplay=1';
+      old.src = src;
+    }
+  </script>
+</body>
+</html>
