@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transfer Window — Glen Sinabutar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0B1220;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(11, 18, 32, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar a {
+      color: #F87171;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .header {
+      text-align: center;
+      padding: 1.75rem 1rem 0.75rem;
+    }
+
+    .header .label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: #F87171;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 1.95rem);
+      font-weight: 800;
+    }
+
+    .header p {
+      color: #94A3B8;
+      font-size: 0.88rem;
+      margin-top: 0.4rem;
+    }
+
+    .from-club {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.8rem;
+      color: #CBD5E1;
+    }
+
+    .from-club img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fff;
+    }
+
+    .grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1000px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .t-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0F1B33;
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+    }
+
+    .t-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.45), 0 0 0 1px rgba(248,113,113,0.3);
+      border-color: rgba(248,113,113,0.4);
+    }
+
+    .t-card.active {
+      border-color: #F87171;
+      box-shadow: 0 0 0 2px rgba(248,113,113,0.55), 0 22px 44px rgba(0,0,0,0.45);
+    }
+
+    .t-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 18px,
+          rgba(255,255,255,0.03) 18px,
+          rgba(255,255,255,0.03) 36px
+        ),
+        linear-gradient(160deg, #12203D 0%, #0B1529 55%, #152445 100%);
+      z-index: 0;
+    }
+
+    .t-chevrons {
+      position: absolute;
+      right: -8%;
+      top: 8%;
+      bottom: 8%;
+      width: 50%;
+      opacity: 0.13;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 11px,
+        #F87171 11px,
+        #F87171 13px
+      );
+      transform: skewX(-12deg);
+      z-index: 0;
+      animation: chevron-move 7s linear infinite;
+    }
+
+    @keyframes chevron-move {
+      from { background-position: 0 0; }
+      to { background-position: 36px 0; }
+    }
+
+    .t-inner {
+      position: relative;
+      z-index: 2;
+      padding: 1.1rem 1.05rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+    }
+
+    .t-top {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .t-badge {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F87171;
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.35);
+      padding: 0.22rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .t-badge.hot {
+      color: #4ADE80;
+      background: rgba(74,222,128,0.12);
+      border-color: rgba(74,222,128,0.35);
+    }
+
+    .t-badge.loan {
+      color: #FBBF24;
+      background: rgba(251,191,36,0.12);
+      border-color: rgba(251,191,36,0.35);
+    }
+
+    .t-badge.free {
+      color: #94A3B8;
+      background: rgba(148,163,184,0.12);
+      border-color: rgba(148,163,184,0.3);
+    }
+
+    .t-logo-pair {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .mini {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #fff;
+      border: 2px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    .mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mini.no-club {
+      background: #334155;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 800;
+      border-color: rgba(148,163,184,0.3);
+    }
+
+    .arrow { color: #94A3B8; font-size: 0.65rem; }
+
+    .t-photo {
+      width: 118px;
+      height: 118px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,0.12);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+      background: #1a2744;
+      margin-top: 0.2rem;
+    }
+
+    .t-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .t-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 1.02rem;
+      letter-spacing: 0.02em;
+      margin-top: 0.15rem;
+    }
+
+    /* logos under name like football card */
+    .t-clubs-under {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      margin: 0.15rem 0 0.1rem;
+    }
+
+    .t-clubs-under .club-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #fff;
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .t-clubs-under .club-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .t-clubs-under .club-logo.no-club {
+      background: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94A3B8;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .t-clubs-under .vs {
+      color: #64748B;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .t-club {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #F87171;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .t-desc {
+      font-size: 0.78rem;
+      color: #94A3B8;
+      line-height: 1.4;
+      max-width: 250px;
+    }
+
+    .t-value {
+      margin-top: 0.15rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: #fff;
+    }
+
+    .t-value span {
+      display: block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #94A3B8;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.1rem;
+    }
+
+    .t-pick {
+      margin-top: 0.3rem;
+      font-size: 0.72rem;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .t-card.active .t-pick {
+      color: #4ADE80;
+      font-weight: 600;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.4rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: #F87171;
+      color: #0B1220;
+      padding: 0.75rem 1.35rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 50;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.78rem;
+      color: #64748B;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ===== CARD SELECT EFFECTS ===== */
+    .fx-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .fx-particle {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    /* FIRE */
+    @keyframes fire-up {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-90px) scale(0.3); opacity: 0; }
+    }
+    .fx-fire {
+      width: 10px; height: 10px;
+      background: radial-gradient(circle, #fff 0%, #FBBF24 30%, #EF4444 70%, transparent 100%);
+      box-shadow: 0 0 8px #EF4444, 0 0 16px #F97316;
+      animation: fire-up 0.9s ease-out forwards;
+    }
+
+    /* LIGHTNING */
+    @keyframes bolt-flash {
+      0%, 100% { opacity: 0; }
+      10%, 30%, 50% { opacity: 1; }
+      20%, 40% { opacity: 0.3; }
+    }
+    .fx-bolt {
+      position: absolute;
+      width: 3px;
+      background: linear-gradient(to bottom, #fff, #38BDF8, #818CF8);
+      box-shadow: 0 0 12px #38BDF8, 0 0 24px #6366F1;
+      border-radius: 2px;
+      animation: bolt-flash 0.6s ease-out forwards;
+      transform-origin: top center;
+    }
+
+    /* WATER */
+    @keyframes water-rise {
+      0% { transform: translateY(20px) scale(0.6); opacity: 0.9; }
+      100% { transform: translateY(-70px) scale(1.2); opacity: 0; }
+    }
+    .fx-water {
+      width: 12px; height: 12px;
+      background: radial-gradient(circle, #E0F2FE 0%, #38BDF8 50%, #0284C7 100%);
+      box-shadow: 0 0 10px #38BDF8;
+      border-radius: 50% 50% 50% 10%;
+      animation: water-rise 1s ease-out forwards;
+    }
+
+    /* ENERGY / SPARK (kerja) */
+    @keyframes energy-burst {
+      0% { transform: scale(0.4); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .fx-energy {
+      width: 8px; height: 8px;
+      background: #4ADE80;
+      box-shadow: 0 0 10px #4ADE80, 0 0 20px #22C55E;
+      animation: energy-burst 0.7s ease-out forwards;
+    }
+
+    /* WIND / LEAF (jepang) */
+    @keyframes wind-drift {
+      0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--wx), var(--wy)) rotate(200deg); opacity: 0; }
+    }
+    .fx-wind {
+      width: 9px; height: 9px;
+      background: #F9A8D4;
+      box-shadow: 0 0 8px #EC4899;
+      border-radius: 2px 8px 2px 8px;
+      animation: wind-drift 1.1s ease-out forwards;
+    }
+
+    /* SMOKE / VOID (no club) */
+    @keyframes smoke-out {
+      0% { transform: translateY(0) scale(0.5); opacity: 0.7; }
+      100% { transform: translateY(-60px) scale(1.8); opacity: 0; }
+    }
+    .fx-smoke {
+      width: 16px; height: 16px;
+      background: radial-gradient(circle, #94A3B8 0%, #475569 60%, transparent 100%);
+      filter: blur(2px);
+      animation: smoke-out 1.2s ease-out forwards;
+    }
+
+    /* Card flash overlay per type */
+    .t-card.fx-active-fire { box-shadow: 0 0 0 2px #EF4444, 0 0 40px rgba(239,68,68,0.45), 0 22px 44px rgba(0,0,0,0.45); }
+    .t-card.fx-active-bolt { box-shadow: 0 0 0 2px #38BDF8, 0 0 40px rgba(56,189,248,0.45), 0 22px 44px rgba(0,0,0,0.45); }
+    .t-card.fx-active-water { box-shadow: 0 0 0 2px #0EA5E9, 0 0 40px rgba(14,165,233,0.4), 0 22px 44px rgba(0,0,0,0.45); }
+    .t-card.fx-active-energy { box-shadow: 0 0 0 2px #4ADE80, 0 0 40px rgba(74,222,128,0.4), 0 22px 44px rgba(0,0,0,0.45); }
+    .t-card.fx-active-wind { box-shadow: 0 0 0 2px #EC4899, 0 0 40px rgba(236,72,153,0.35), 0 22px 44px rgba(0,0,0,0.45); }
+    .t-card.fx-active-smoke { box-shadow: 0 0 0 2px #94A3B8, 0 0 40px rgba(148,163,184,0.3), 0 22px 44px rgba(0,0,0,0.45); }
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Kembali</a>
+    <span style="font-weight:700;color:#F87171;letter-spacing:0.1em;font-size:0.78rem;">TRANSFER WINDOW</span>
+  </div>
+
+  <div class="header">
+    <div class="label">Rumour · Career Move</div>
+    <h1>Glen mau transfer ke mana?</h1>
+    <p>Dari SMKN 1 Bukittinggi · pilih club tujuan</p>
+    <div class="from-club">
+      <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+           onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'"
+           alt="SMKN 1">
+      Club awal: <strong style="color:#fff">SMKN 1 Bukittinggi</strong>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1 MERCU BUANA -->
+    <article class="t-card" data-club="Universitas Mercu Buana" data-fx="fire">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge">Kuliah</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1eY2ats7hhpB0pYnEnq3P39Y8uuzXUy3J"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1eY2ats7hhpB0pYnEnq3P39Y8uuzXUy3J&sz=w100'" alt="Mercu Buana">
+            </div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1eY2ats7hhpB0pYnEnq3P39Y8uuzXUy3J"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1eY2ats7hhpB0pYnEnq3P39Y8uuzXUy3J&sz=w100'" alt="Mercu">
+          </div>
+        </div>
+        <div class="t-club">→ Mercu Buana</div>
+        <div class="t-desc">Rumour kuliah. Target kampus Mercu Buana.</div>
+        <div class="t-value"><span>PATH</span>Kuliah · S1</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+    <!-- 2 UFDK -->
+    <article class="t-card" data-club="UFDK" data-fx="bolt">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge">Kuliah</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1bVYn9YhKYYDCUj0694P7Q_P7QQ9jBm9Q"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1bVYn9YhKYYDCUj0694P7Q_P7QQ9jBm9Q&sz=w100'" alt="UFDK">
+            </div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1bVYn9YhKYYDCUj0694P7Q_P7QQ9jBm9Q"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1bVYn9YhKYYDCUj0694P7Q_P7QQ9jBm9Q&sz=w100'" alt="UFDK">
+          </div>
+        </div>
+        <div class="t-club">→ UFDK</div>
+        <div class="t-desc">Rumour kuliah. Opsi kampus UFDK.</div>
+        <div class="t-value"><span>PATH</span>Kuliah · S1</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+    <!-- 3 UPMI -->
+    <article class="t-card" data-club="UPMI" data-fx="water">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge">Kuliah</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1DYpxE1FzjoeLXFjZd4A43hmyxcLzhMB_"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1DYpxE1FzjoeLXFjZd4A43hmyxcLzhMB_&sz=w100'" alt="UPMI">
+            </div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1DYpxE1FzjoeLXFjZd4A43hmyxcLzhMB_"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1DYpxE1FzjoeLXFjZd4A43hmyxcLzhMB_&sz=w100'" alt="UPMI">
+          </div>
+        </div>
+        <div class="t-club">→ UPMI</div>
+        <div class="t-desc">Rumour kuliah. Opsi kampus UPMI.</div>
+        <div class="t-value"><span>PATH</span>Kuliah · S1</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+    <!-- 4 KERJA ONGOING -->
+    <article class="t-card" data-club="Kerja Ongoing" data-fx="energy">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge hot">Kerja</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1_Sh2mUC2RIgKX2qToeknXOuYzuiWsRzg"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1_Sh2mUC2RIgKX2qToeknXOuYzuiWsRzg&sz=w100'" alt="Kerja">
+            </div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1_Sh2mUC2RIgKX2qToeknXOuYzuiWsRzg"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1_Sh2mUC2RIgKX2qToeknXOuYzuiWsRzg&sz=w100'" alt="Kerja">
+          </div>
+        </div>
+        <div class="t-club">→ Kerja · Ongoing</div>
+        <div class="t-desc">Hot rumour. Langsung masuk dunia kerja.</div>
+        <div class="t-value"><span>PATH</span>Karyawan · Ongoing</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+    <!-- 5 LPK SIANTAR / JEPANG -->
+    <article class="t-card" data-club="LPK Siantar · Jepang" data-fx="wind">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge loan">Kursus</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1uhvux943HHi3pO2RNE-oYy8FqcY9ZD7Z"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1uhvux943HHi3pO2RNE-oYy8FqcY9ZD7Z&sz=w100'" alt="LPK">
+            </div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1uhvux943HHi3pO2RNE-oYy8FqcY9ZD7Z"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1uhvux943HHi3pO2RNE-oYy8FqcY9ZD7Z&sz=w100'" alt="LPK">
+          </div>
+        </div>
+        <div class="t-club">→ LPK Siantar · Jepang</div>
+        <div class="t-desc">Kursus kerja Jepang. Program LPK Siantar.</div>
+        <div class="t-value"><span>PATH</span>Kursus · Kerja Jepang</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+    <!-- 6 PENGANGGURAN / NO CLUB -->
+    <article class="t-card" data-club="No Club · Free Agent" data-fx="smoke">
+      <div class="t-bg"></div>
+      <div class="t-chevrons"></div>
+      <div class="t-inner">
+        <div class="t-top">
+          <span class="t-badge free">Free Agent</span>
+          <div class="t-logo-pair">
+            <div class="mini">
+              <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                   onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+            </div>
+            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            <div class="mini no-club">?</div>
+          </div>
+        </div>
+        <div class="t-photo">
+          <img src="https://drive.google.com/uc?export=view&id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm" alt="Glen"
+               onerror="this.src='https://drive.google.com/thumbnail?id=1OzBS4dbCLEJPEB2dZI7VDqAaeTEwpdMm&sz=w400'">
+        </div>
+        <div class="t-name">GLEN SINABUTAR</div>
+        <div class="t-clubs-under">
+          <div class="club-logo">
+            <img src="https://drive.google.com/uc?export=view&id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3"
+                 onerror="this.src='https://drive.google.com/thumbnail?id=1-GI5wsXfYbbHhHnQpwyoZlI2jnILjgA3&sz=w100'" alt="SMKN1">
+          </div>
+          <span class="vs">→</span>
+          <div class="club-logo no-club">?</div>
+        </div>
+        <div class="t-club">→ No Club</div>
+        <div class="t-desc">Pengangguran. Free agent — belum ada club tujuan.</div>
+        <div class="t-value"><span>PATH</span>€ 0 · Free Agent</div>
+        <div class="t-pick"><i class="fas fa-hand-pointer"></i> Ketuk untuk pilih</div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="footer">© 2026 Glen Arga Firizky Sinabutar · From SMKN 1 Bukittinggi</div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    var toastEl = document.getElementById('toast');
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+    }
+
+    function clearFxClasses(card) {
+      card.className = card.className.replace(/\bfx-active-\w+/g, '').trim();
+      var layer = card.querySelector('.fx-layer');
+      if (layer) layer.remove();
+    }
+
+    function spawnFx(card, type) {
+      var layer = document.createElement('div');
+      layer.className = 'fx-layer';
+      card.appendChild(layer);
+      card.classList.add('fx-active-' + type);
+
+      var count = type === 'bolt' ? 6 : 18;
+      for (var i = 0; i < count; i++) {
+        var el = document.createElement('div');
+        if (type === 'fire') {
+          el.className = 'fx-particle fx-fire';
+          el.style.left = (20 + Math.random() * 60) + '%';
+          el.style.bottom = (5 + Math.random() * 25) + '%';
+          el.style.animationDelay = (Math.random() * 0.35) + 's';
+        } else if (type === 'bolt') {
+          el.className = 'fx-bolt';
+          el.style.left = (15 + Math.random() * 70) + '%';
+          el.style.top = (5 + Math.random() * 20) + '%';
+          el.style.height = (40 + Math.random() * 50) + '%';
+          el.style.animationDelay = (Math.random() * 0.25) + 's';
+          el.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+        } else if (type === 'water') {
+          el.className = 'fx-particle fx-water';
+          el.style.left = (15 + Math.random() * 70) + '%';
+          el.style.bottom = (8 + Math.random() * 20) + '%';
+          el.style.animationDelay = (Math.random() * 0.4) + 's';
+        } else if (type === 'energy') {
+          el.className = 'fx-particle fx-energy';
+          el.style.left = (50 + (Math.random() - 0.5) * 50) + '%';
+          el.style.top = (50 + (Math.random() - 0.5) * 50) + '%';
+          el.style.animationDelay = (Math.random() * 0.25) + 's';
+        } else if (type === 'wind') {
+          el.className = 'fx-particle fx-wind';
+          el.style.left = (20 + Math.random() * 60) + '%';
+          el.style.top = (20 + Math.random() * 50) + '%';
+          var wx = (Math.random() * 80 - 20) + 'px';
+          var wy = (-40 - Math.random() * 50) + 'px';
+          el.style.setProperty('--wx', wx);
+          el.style.setProperty('--wy', wy);
+          el.style.animationDelay = (Math.random() * 0.3) + 's';
+        } else {
+          el.className = 'fx-particle fx-smoke';
+          el.style.left = (25 + Math.random() * 50) + '%';
+          el.style.bottom = (10 + Math.random() * 30) + '%';
+          el.style.animationDelay = (Math.random() * 0.4) + 's';
+        }
+        layer.appendChild(el);
+      }
+
+      setTimeout(function () {
+        if (layer.parentNode) layer.remove();
+      }, 1400);
+    }
+
+    document.querySelectorAll('.t-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        document.querySelectorAll('.t-card').forEach(function (c) {
+          c.classList.remove('active');
+          clearFxClasses(c);
+          var p = c.querySelector('.t-pick');
+          if (p) p.innerHTML = '<i class="fas fa-hand-pointer"></i> Ketuk untuk pilih';
+        });
+        card.classList.add('active');
+        var pick = card.querySelector('.t-pick');
+        if (pick) pick.innerHTML = '<i class="fas fa-check"></i> Deal — klub terpilih';
+
+        var fx = card.getAttribute('data-fx') || 'fire';
+        spawnFx(card, fx);
+
+        toast('Deal! Glen → ' + card.getAttribute('data-club') + ' 🔥');
+      });
+
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'translateY(-6px) perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 5) + 'deg)';
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
