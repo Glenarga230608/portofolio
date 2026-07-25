@@ -10,49 +10,44 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: #07070c;
+      background: #000;
       color: #F3F4F6;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* galaxy bg */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(88, 28, 135, 0.35), transparent 55%),
-        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(30, 58, 138, 0.3), transparent 50%),
-        radial-gradient(ellipse 50% 50% at 50% 80%, rgba(127, 29, 29, 0.2), transparent 50%),
-        radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
-        radial-gradient(1.5px 1.5px at 30% 60%, #fff, transparent),
-        radial-gradient(1px 1px at 50% 15%, #c4b5fd, transparent),
-        radial-gradient(1.5px 1.5px at 70% 40%, #fff, transparent),
-        radial-gradient(1px 1px at 85% 70%, #93c5fd, transparent),
-        radial-gradient(1.5px 1.5px at 15% 85%, #fff, transparent),
-        radial-gradient(1px 1px at 55% 55%, #f9a8d4, transparent),
-        radial-gradient(1.5px 1.5px at 90% 10%, #fff, transparent);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 200px 200px, 180px 180px, 220px 220px, 160px 160px, 190px 190px, 210px 210px, 170px 170px, 200px 200px;
-      pointer-events: none;
-      z-index: 0;
-      animation: galaxy-drift 40s linear infinite;
+    .notes-layer {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
     }
-    @keyframes galaxy-drift {
-      from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
-      to { background-position: 0 0, 0 0, 0 0, 40px 60px, -30px 40px, 50px -20px, -40px 30px, 20px 50px, -25px -35px, 35px 20px, -15px 45px; }
+    .note {
+      position: absolute; bottom: -40px;
+      animation: note-drift linear infinite;
+      text-shadow: 0 0 8px rgba(255,255,255,0.35);
+    }
+    .note.n0 { color: #e9d5ff; }
+    .note.n1 { color: #bfdbfe; }
+    .note.n2 { color: #fbcfe8; }
+    .note.n3 { color: #a7f3d0; }
+    .note.n4 { color: #fde68a; }
+    .note.n5 { color: #ddd6fe; }
+    @keyframes note-drift {
+      0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      8%   { opacity: 1; }
+      50%  { transform: translate(40px, -50vh) rotate(180deg); }
+      92%  { opacity: 0.8; }
+      100% { transform: translate(-20px, -110vh) rotate(360deg); opacity: 0; }
     }
 
     .topbar {
       position: sticky; top: 0; z-index: 30;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.9rem 1.15rem;
-      background: rgba(7, 7, 12, 0.85);
+      background: rgba(0,0,0,0.9);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
     }
     .topbar a {
-      color: #E9D5FF; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+      color: #E5E5E5; text-decoration: none; font-weight: 600; font-size: 0.9rem;
       display: inline-flex; align-items: center; gap: 0.4rem;
     }
 
@@ -61,8 +56,6 @@
       text-align: center;
       padding: 2.25rem 1rem 1.25rem;
     }
-
-    /* PLAYLIST — 3D pulse scale left→right */
     .label-3d {
       display: inline-block;
       font-family: 'Poppins', sans-serif;
@@ -71,181 +64,197 @@
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: #E9D5FF;
-      text-shadow:
-        0 1px 0 #c4b5fd,
-        0 2px 0 #a78bfa,
-        0 3px 0 #8b5cf6,
-        0 4px 0 #7c3aed,
-        0 6px 12px rgba(91, 33, 182, 0.55),
-        0 0 40px rgba(168, 85, 247, 0.45),
-        0 0 80px rgba(59, 130, 246, 0.25);
+      text-shadow: 0 1px 0 #c4b5fd, 0 2px 0 #a78bfa, 0 3px 0 #8b5cf6, 0 4px 0 #7c3aed, 0 6px 12px rgba(91,33,182,0.55);
       animation: label-wave 3.2s ease-in-out infinite;
-      transform-origin: center;
       margin-bottom: 0.85rem;
     }
     @keyframes label-wave {
-      0%   { transform: scaleX(0.88) scaleY(1) translateX(-6px); letter-spacing: 0.18em; }
-      40%  { transform: scaleX(1.12) scaleY(1.05) translateX(4px); letter-spacing: 0.35em; }
-      70%  { transform: scaleX(1.02) scaleY(1) translateX(2px); letter-spacing: 0.28em; }
-      100% { transform: scaleX(0.88) scaleY(1) translateX(-6px); letter-spacing: 0.18em; }
+      0%   { transform: scaleX(0.88) translateX(-6px); letter-spacing: 0.18em; }
+      40%  { transform: scaleX(1.12) translateX(4px); letter-spacing: 0.35em; }
+      70%  { transform: scaleX(1.02) translateX(2px); letter-spacing: 0.28em; }
+      100% { transform: scaleX(0.88) translateX(-6px); letter-spacing: 0.18em; }
     }
-
-    /* Main title 3D + galaxy glow */
     .title-3d {
       font-family: 'Poppins', sans-serif;
       font-size: clamp(1.85rem, 6vw, 3rem);
       font-weight: 900;
-      line-height: 1.15;
       color: #fff;
-      text-shadow:
-        0 1px 0 #ddd6fe,
-        0 2px 0 #c4b5fd,
-        0 3px 0 #a78bfa,
-        0 4px 0 #8b5cf6,
-        0 5px 0 #7c3aed,
-        0 7px 0 #6d28d9,
-        0 10px 20px rgba(0,0,0,0.45),
-        0 0 30px rgba(192, 132, 252, 0.55),
-        0 0 60px rgba(99, 102, 241, 0.4),
-        0 0 100px rgba(236, 72, 153, 0.25);
+      text-shadow: 0 1px 0 #ddd6fe, 0 2px 0 #c4b5fd, 0 3px 0 #a78bfa, 0 4px 0 #8b5cf6, 0 5px 0 #7c3aed, 0 10px 20px rgba(0,0,0,0.55);
       animation: title-float 4s ease-in-out infinite;
     }
     @keyframes title-float {
-      0%, 100% { transform: translateY(0) rotateX(0deg); }
-      50% { transform: translateY(-6px) rotateX(4deg); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
-
-    .sub {
-      margin-top: 0.75rem;
-      color: #A1A1AA;
-      font-size: 0.9rem;
-    }
+    .sub { margin-top: 0.75rem; color: #A1A1AA; font-size: 0.9rem; }
 
     .grid {
       position: relative; z-index: 2;
-      max-width: 1200px; margin: 0 auto;
+      max-width: 1100px; margin: 0 auto;
       padding: 1rem 1rem 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 1.1rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.5rem 1.2rem;
+      justify-items: center;
     }
     @media (min-width: 640px) {
-      .grid { grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 1.25rem; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.75rem 1.4rem; }
     }
 
-    .song-card-inner {
-      position: relative;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+    .song-card {
+      width: 100%;
+      max-width: 180px;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
     }
-    .song-card-inner:hover {
-      transform: translateY(-6px);
-      border-color: rgba(192, 132, 252, 0.4);
-      box-shadow: 0 18px 40px rgba(88, 28, 135, 0.35);
+    .float-a { animation-name: float-a; }
+    .float-b { animation-name: float-b; }
+    .float-c { animation-name: float-c; }
+    .float-d { animation-name: float-d; }
+    .float-e { animation-name: float-e; }
+    .float-f { animation-name: float-f; }
+    @keyframes float-a {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes float-b {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-8px) translateX(5px); }
+    }
+    @keyframes float-c {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+    @keyframes float-d {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.03); }
+    }
+    @keyframes float-e {
+      0%, 100% { transform: translate(0, 0); }
+      33% { transform: translate(5px, -9px); }
+      66% { transform: translate(-4px, -5px); }
+    }
+    @keyframes float-f {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-11px); }
     }
 
-    .card-gloss {
-      position: absolute; top: 0; left: -55%;
-      width: 40%; height: 100%;
-      background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.2) 50%, transparent 75%);
-      pointer-events: none; z-index: 6;
-      animation: gloss 5s ease-in-out infinite;
-    }
-    .song-card:nth-child(2n) .card-gloss { animation-delay: 1s; }
-    .song-card:nth-child(3n) .card-gloss { animation-delay: 2s; }
-    .song-card:nth-child(4n) .card-gloss { animation-delay: 3s; }
-    @keyframes gloss {
-      0% { left: -55%; opacity: 0; }
-      10% { opacity: 1; }
-      40% { left: 120%; opacity: 0.6; }
-      50%, 100% { left: 120%; opacity: 0; }
-    }
-
-    .song-cover {
-      position: relative;
+    .vinyl-wrap {
+      width: 100%;
       aspect-ratio: 1;
-      overflow: hidden;
-    }
-    .cover-orb {
-      position: absolute; border-radius: 50%;
-      filter: blur(18px); opacity: 0.55;
-    }
-    .cover-orb.o1 {
-      width: 55%; height: 55%; top: -10%; left: -10%;
-      background: rgba(255,255,255,0.35);
-    }
-    .cover-orb.o2 {
-      width: 45%; height: 45%; bottom: -5%; right: -5%;
-      background: rgba(0,0,0,0.35);
-    }
-    .cover-stars {
-      position: absolute; inset: 0;
-      background-image:
-        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 60% 20%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(1.5px 1.5px at 80% 60%, rgba(255,255,255,0.6), transparent),
-        radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.7), transparent),
-        radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.5), transparent);
-      opacity: 0.7;
-    }
-    .cover-initials {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 900; font-size: 2.1rem;
-      color: rgba(255,255,255,0.92);
-      text-shadow: 0 4px 20px rgba(0,0,0,0.45);
-      letter-spacing: 0.06em;
-      z-index: 2;
-    }
-    .cover-shine {
-      position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(255,255,255,0.25) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.2) 100%);
-      z-index: 3; pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .song-info {
-      padding: 0.8rem 0.85rem 0.95rem;
-      background: rgba(10, 10, 18, 0.85);
-      position: relative; z-index: 4;
-      border-top: 1px solid rgba(255,255,255,0.06);
+    .vinyl {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 50%,
+          #1a1a1a 0%,
+          #111 28%,
+          #0a0a0a 29%,
+          #151515 30%,
+          #0d0d0d 42%,
+          #181818 43%,
+          #0a0a0a 55%,
+          #141414 56%,
+          #080808 70%,
+          #121212 71%,
+          #050505 100%);
+      box-shadow:
+        0 0 0 3px #222,
+        0 8px 24px rgba(0,0,0,0.7),
+        inset 0 0 30px rgba(0,0,0,0.8);
+      animation: spin-vinyl linear infinite;
     }
-    .song-title {
+    @keyframes spin-vinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .song-card:hover .vinyl {
+      animation-play-state: paused;
+    }
+
+    .vinyl-grooves {
+      position: absolute;
+      inset: 6%;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(
+          circle at center,
+          transparent 0px,
+          transparent 3px,
+          rgba(255,255,255,0.035) 3px,
+          rgba(255,255,255,0.035) 4px
+        );
+      pointer-events: none;
+    }
+
+    /* circular title text */
+    .vinyl-text-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .curved-text {
+      fill: #fff;
       font-family: 'Poppins', sans-serif;
-      font-size: 0.82rem; font-weight: 700;
-      line-height: 1.3; color: #fff;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 2.15em;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
     }
-    .song-artist {
-      margin-top: 0.35rem;
-      font-size: 0.72rem;
-      color: #C4B5FD;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+
+    .vinyl-label {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 28%;
+      height: 28%;
+      margin: -14% 0 0 -14%;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--c1), var(--c2));
+      box-shadow:
+        0 0 0 2px rgba(0,0,0,0.45),
+        inset 0 2px 6px rgba(255,255,255,0.15);
+      z-index: 3;
+    }
+
+    .vinyl-hole {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 7%;
+      height: 7%;
+      margin: -3.5% 0 0 -3.5%;
+      border-radius: 50%;
+      background: #000;
+      box-shadow: inset 0 0 0 1.5px #333, 0 0 4px #000;
+      z-index: 4;
     }
 
     .footer {
       position: relative; z-index: 2;
       text-align: center; padding: 1rem;
-      font-size: 0.78rem; color: #71717A;
+      font-size: 0.78rem; color: #52525B;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
   </style>
 </head>
 <body>
+  <div class="notes-layer">
+    <span class="note n0" style="left:5%;font-size:14px;animation-duration:12s;animation-delay:-0.0s;opacity:0.15;">♪</span><span class="note n1" style="left:22%;font-size:20px;animation-duration:14s;animation-delay:-0.7s;opacity:0.22999999999999998;">♫</span><span class="note n2" style="left:39%;font-size:26px;animation-duration:16s;animation-delay:-1.4s;opacity:0.31;">♩</span><span class="note n3" style="left:56%;font-size:32px;animation-duration:18s;animation-delay:-2.0999999999999996s;opacity:0.39;">♬</span><span class="note n4" style="left:73%;font-size:38px;animation-duration:20s;animation-delay:-2.8s;opacity:0.15;">♭</span><span class="note n5" style="left:90%;font-size:14px;animation-duration:22s;animation-delay:-3.5s;opacity:0.22999999999999998;">♮</span><span class="note n0" style="left:7%;font-size:20px;animation-duration:24s;animation-delay:-4.199999999999999s;opacity:0.31;">♪</span><span class="note n1" style="left:24%;font-size:26px;animation-duration:26s;animation-delay:-4.8999999999999995s;opacity:0.39;">♫</span><span class="note n2" style="left:41%;font-size:32px;animation-duration:12s;animation-delay:-5.6s;opacity:0.15;">♩</span><span class="note n3" style="left:58%;font-size:38px;animation-duration:14s;animation-delay:-6.3s;opacity:0.22999999999999998;">♬</span><span class="note n4" style="left:75%;font-size:14px;animation-duration:16s;animation-delay:-7.0s;opacity:0.31;">♭</span><span class="note n5" style="left:92%;font-size:20px;animation-duration:18s;animation-delay:-7.699999999999999s;opacity:0.39;">♮</span><span class="note n0" style="left:9%;font-size:26px;animation-duration:20s;animation-delay:-8.399999999999999s;opacity:0.15;">♪</span><span class="note n1" style="left:26%;font-size:32px;animation-duration:22s;animation-delay:-9.1s;opacity:0.22999999999999998;">♫</span><span class="note n2" style="left:43%;font-size:38px;animation-duration:24s;animation-delay:-9.799999999999999s;opacity:0.31;">♩</span><span class="note n3" style="left:60%;font-size:14px;animation-duration:26s;animation-delay:-10.5s;opacity:0.39;">♬</span><span class="note n4" style="left:77%;font-size:20px;animation-duration:12s;animation-delay:-11.2s;opacity:0.15;">♭</span><span class="note n5" style="left:94%;font-size:26px;animation-duration:14s;animation-delay:-11.899999999999999s;opacity:0.22999999999999998;">♮</span><span class="note n0" style="left:11%;font-size:32px;animation-duration:16s;animation-delay:-12.6s;opacity:0.31;">♪</span><span class="note n1" style="left:28%;font-size:38px;animation-duration:18s;animation-delay:-13.299999999999999s;opacity:0.39;">♫</span><span class="note n2" style="left:45%;font-size:14px;animation-duration:20s;animation-delay:-14.0s;opacity:0.15;">♩</span><span class="note n3" style="left:62%;font-size:20px;animation-duration:22s;animation-delay:-14.7s;opacity:0.22999999999999998;">♬</span><span class="note n4" style="left:79%;font-size:26px;animation-duration:24s;animation-delay:-15.399999999999999s;opacity:0.31;">♭</span><span class="note n5" style="left:96%;font-size:32px;animation-duration:26s;animation-delay:-16.099999999999998s;opacity:0.39;">♮</span>
+  </div>
+
   <div class="topbar">
     <a href="index.html"><i class="fas fa-arrow-left"></i> Kembali</a>
-    <span style="font-weight:700;color:#C4B5FD;font-size:0.85rem;">Songs</span>
+    <span style="font-weight:700;color:#A1A1AA;font-size:0.85rem;">Songs</span>
   </div>
 
   <div class="header">
@@ -256,1636 +265,1738 @@
 
   <div class="grid">
     
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(175deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">T</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Terhebat</h3>
-          <p class="song-artist">Agatha Chelsea</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(151deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">S</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sialan</h3>
-          <p class="song-artist">Juicy Luicy</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(179deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TT</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Tak Terima</h3>
-          <p class="song-artist">Keisya Levronka</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(137deg, #0a1628 0%, #0e7490 48%, #67e8f9 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">R</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Resah</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(138deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Lesung Pipi</h3>
-          <p class="song-artist">Raim Laode</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(150deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Senin Pagi Di Bulan Juli</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(135deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">A</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Akad</h3>
-          <p class="song-artist">Payung Teduh</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(129deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KT</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kamu Terlalu Baik</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(128deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kukira Kau Rumah</h3>
-          <p class="song-artist">Amigdala</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(167deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">IA</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Ini Abadi</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(178deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">M</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">MANGU</h3>
-          <p class="song-artist">Fourtwnty</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(151deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JM</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jangan Menoleh Kebelakang</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(163deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sekarang Hingga Nanti Kita Tua</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(171deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">AT</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Akhir Tak Bahagia</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(150deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RB</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Ruang Baru (From &quot;My Annoying Brother&quot;)</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(175deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">DI</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Di Ini Januari</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(127deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Terlalu Lama Sendiri</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(168deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BB</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Berdua Bersama</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(131deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LA</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Langit Abu-Abu</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(179deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Bahagia Lagi</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(147deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TC</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Tunjukkan Cintamu</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(173deg, #0a1628 0%, #0e7490 48%, #67e8f9 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SS</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Selamat (Selamat Tinggal)</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(123deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jendela Kelas 1</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(159deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JD</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jangan Datang Saat Kesepian</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(156deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Satu Hari Di Bulan Juni</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(148deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Lampu Kuning</h3>
-          <p class="song-artist">Juicy Luicy</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(121deg, #0c1445 0%, #1e3a8a 48%, #60a5fa 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BM</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Bunga Maaf</h3>
-          <p class="song-artist">The Panasdalam Bank</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(129deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KI</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">kota ini tak sama tanpamu</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(153deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JC</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jatuh Cinta</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(131deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">NK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Nanti Kita Seperti Ini</h3>
-          <p class="song-artist">Batas Senja</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(168deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">S</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sempurna</h3>
-          <p class="song-artist">Andra and The Backbone</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(153deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Bercinta Lewat Kata</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(175deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TB</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Teman Bahagia</h3>
-          <p class="song-artist">Jaz</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(164deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">1T</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">1000 Tahun Lamanya</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(176deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">L</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Labirin</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(171deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">L</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">L</h3>
-          <p class="song-artist">Hal</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(132deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Laskar Pelangi</h3>
-          <p class="song-artist">Nidji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(144deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RS</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Rindu Sendiri</h3>
-          <p class="song-artist">Iqbaal Ramadhan</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(146deg, #1c0a0a 0%, #9f1239 48%, #fb7185 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">P</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Pelangi</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(170deg, #1c0a0a 0%, #9f1239 48%, #fb7185 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Teh Hijau</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(141deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RJ</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Resah Jadi Luka</h3>
-          <p class="song-artist">Daun Jatuh</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(173deg, #0a1628 0%, #0e7490 48%, #67e8f9 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JS</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jatuh Suka</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(125deg, #0a1628 0%, #0e7490 48%, #67e8f9 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">FK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Foto kita blur</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(124deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Berdansalah, Karir Ini Tak Ada Artinya</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(155deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">R</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Remaja</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(129deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">DY</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Dewasa Yang Menyebalkan</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(122deg, #1c0a0a 0%, #9f1239 48%, #fb7185 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">EU</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">everything u are</h3>
-          <p class="song-artist">Ardhito Pramono</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(124deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">ER</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Evaluasi (Reprise)</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(154deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BD</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Beranjak Dewasa</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(164deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">PR</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Pemuja Rahasia</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(153deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Satu Hari Lagi</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(157deg, #0c1445 0%, #1e3a8a 48%, #60a5fa 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BS</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">bergema sampai selamanya</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(142deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">3</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">33x</h3>
-          <p class="song-artist">Perunggu</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(124deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">DP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Dari planet lain</h3>
-          <p class="song-artist">Sal Priadi</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(160deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kita Ke Sana</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(151deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">PH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">penjaga hati</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(166deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TD</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Terbuang Dalam Waktu (Piano Version)</h3>
-          <p class="song-artist">Barasuara</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(172deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LM</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Lampu Merah</h3>
-          <p class="song-artist">Juicy Luicy</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(152deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">YL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Yang Lain Boleh Hilang Asal Kau Jangan</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(136deg, #1c1008 0%, #9a3412 48%, #fdba74 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JY</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jiwa Yang Bersedih</h3>
-          <p class="song-artist">Ghea Indrawari</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(163deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">AP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Amin Paling Serius</h3>
-          <p class="song-artist">Sal Priadi</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(146deg, #1c0a0a 0%, #9f1239 48%, #fb7185 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KU</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kita usahakan rumah itu</h3>
-          <p class="song-artist">Sal Priadi</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(155deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">YP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Yang Patah Tumbuh, Yang Hilang Berganti</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(142deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">H</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Happiness</h3>
-          <p class="song-artist">The 1975</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(176deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">T</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Terlintas</h3>
-          <p class="song-artist">Batas Senja</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(130deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">A</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Asing</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(143deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">WU</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Waking Up Together With You</h3>
-          <p class="song-artist">Ardhito Pramono</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(130deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">L</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Lama-Lama</h3>
-          <p class="song-artist">Bernadya</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(153deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">W</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Waktu</h3>
-          <p class="song-artist">Tulus</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(168deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SW</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Setiap Waktu</h3>
-          <p class="song-artist">Lalahuta</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(140deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sialnya, Hidup Harus Tetap Berjalan</h3>
-          <p class="song-artist">Bernadya</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(135deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">LK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Lihat Kebunku (Taman Bunga)</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
+    <article class="song-card float-a" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath0" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath0" startOffset="25%">Terhebat</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath1" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath1" startOffset="25%">Sialan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath2" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath2" startOffset="25%">Tak Terima</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#0e7490; --c2:#06b6d4;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath3" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath3" startOffset="25%">Resah</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#86198f; --c2:#d946ef;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath4" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath4" startOffset="25%">Lesung Pipi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#86198f; --c2:#d946ef;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath5" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath5" startOffset="25%">Senin Pagi Di Bulan Juli</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
     </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(169deg, #0c1445 0%, #1e3a8a 48%, #60a5fa 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">N</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Niscaya</h3>
-          <p class="song-artist">Sal Priadi</p>
+    <article class="song-card float-a" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath6" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath6" startOffset="25%">Akad</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath7" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath7" startOffset="25%">Kamu Terlalu Baik</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath8" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath8" startOffset="25%">Kukira Kau Rumah</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath9" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath9" startOffset="25%">Ini Abadi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath10" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath10" startOffset="25%">MANGU</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath11" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath11" startOffset="25%">Jangan Menoleh Kebelakang</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath12" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath12" startOffset="25%">Sekarang Hingga Nanti Kita Tua</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath13" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath13" startOffset="25%">Akhir Tak Bahagia</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath14" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath14" startOffset="25%">Ruang Baru</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath15" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath15" startOffset="25%">Di Ini Januari</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath16" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath16" startOffset="25%">Terlalu Lama Sendiri</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath17" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath17" startOffset="25%">Berdua Bersama</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath18" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath18" startOffset="25%">Langit Abu-Abu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath19" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath19" startOffset="25%">Bahagia Lagi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath20" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath20" startOffset="25%">Tunjukkan Cintamu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#0e7490; --c2:#06b6d4;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath21" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath21" startOffset="25%">Selamat (Selamat Tinggal)</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath22" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath22" startOffset="25%">Jendela Kelas 1</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath23" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath23" startOffset="25%">Jangan Datang Saat Kesepian</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath24" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath24" startOffset="25%">Satu Hari Di Bulan Juni</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath25" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath25" startOffset="25%">Lampu Kuning</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#1e3a8a; --c2:#3b82f6;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath26" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath26" startOffset="25%">Bunga Maaf</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath27" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath27" startOffset="25%">kota ini tak sama tanpamu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath28" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath28" startOffset="25%">Jatuh Cinta</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath29" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath29" startOffset="25%">Nanti Kita Seperti Ini</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath30" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath30" startOffset="25%">Sempurna</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath31" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath31" startOffset="25%">Bercinta Lewat Kata</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath32" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath32" startOffset="25%">Teman Bahagia</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath33" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath33" startOffset="25%">1000 Tahun Lamanya</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath34" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath34" startOffset="25%">Labirin</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath35" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath35" startOffset="25%">L</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath36" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath36" startOffset="25%">Laskar Pelangi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath37" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath37" startOffset="25%">Rindu Sendiri</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#9f1239; --c2:#e11d48;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath38" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath38" startOffset="25%">Pelangi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#9f1239; --c2:#e11d48;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath39" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath39" startOffset="25%">Teh Hijau</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath40" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath40" startOffset="25%">Resah Jadi Luka</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#0e7490; --c2:#06b6d4;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath41" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath41" startOffset="25%">Jatuh Suka</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#0e7490; --c2:#06b6d4;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath42" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath42" startOffset="25%">Foto kita blur</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath43" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath43" startOffset="25%">Berdansalah, Karir Ini Tak Ada Artinya</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath44" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath44" startOffset="25%">Remaja</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath45" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath45" startOffset="25%">Dewasa Yang Menyebalkan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#9f1239; --c2:#e11d48;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath46" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath46" startOffset="25%">everything u are</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath47" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath47" startOffset="25%">Evaluasi (Reprise)</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath48" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath48" startOffset="25%">Beranjak Dewasa</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath49" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath49" startOffset="25%">Pemuja Rahasia</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath50" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath50" startOffset="25%">Satu Hari Lagi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#1e3a8a; --c2:#3b82f6;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath51" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath51" startOffset="25%">bergema sampai selamanya</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath52" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath52" startOffset="25%">33x</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath53" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath53" startOffset="25%">Dari planet lain</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath54" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath54" startOffset="25%">Kita Ke Sana</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath55" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath55" startOffset="25%">penjaga hati</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath56" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath56" startOffset="25%">Terbuang Dalam Waktu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath57" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath57" startOffset="25%">Lampu Merah</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath58" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath58" startOffset="25%">Yang Lain Boleh Hilang Asal Kau Jangan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#9a3412; --c2:#f97316;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath59" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath59" startOffset="25%">Jiwa Yang Bersedih</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath60" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath60" startOffset="25%">Amin Paling Serius</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#9f1239; --c2:#e11d48;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath61" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath61" startOffset="25%">Kita usahakan rumah itu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath62" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath62" startOffset="25%">Yang Patah Tumbuh, Yang Hilang Berganti</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath63" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath63" startOffset="25%">Happiness</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath64" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath64" startOffset="25%">Terlintas</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath65" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath65" startOffset="25%">Asing</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath66" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath66" startOffset="25%">Waking Up Together With You</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath67" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath67" startOffset="25%">Lama-Lama</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath68" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath68" startOffset="25%">Waktu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath69" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath69" startOffset="25%">Setiap Waktu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath70" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath70" startOffset="25%">Sialnya, Hidup Harus Tetap Berjalan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath71" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath71" startOffset="25%">Lihat Kebunku (Taman Bunga)</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#1e3a8a; --c2:#3b82f6;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath72" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath72" startOffset="25%">Niscaya</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#86198f; --c2:#d946ef;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath73" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath73" startOffset="25%">Rahasia Hati</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath74" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath74" startOffset="25%">Jakarta Hari Ini</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath75" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath75" startOffset="25%">Sadrah</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#1e3a8a; --c2:#3b82f6;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath76" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath76" startOffset="25%">Sekali Lagi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath77" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath77" startOffset="25%">Berisik</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#0e7490; --c2:#06b6d4;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath78" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath78" startOffset="25%">Cincin</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath79" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath79" startOffset="25%">Asmalibrasi</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath80" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath80" startOffset="25%">Negara Lucu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath81" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath81" startOffset="25%">Hujan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#9f1239; --c2:#e11d48;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath82" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath82" startOffset="25%">Sekuat Hatimu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath83" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath83" startOffset="25%">Kerasnya Kota</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath84" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath84" startOffset="25%">Mesin Waktu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath85" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath85" startOffset="25%">Saat Kau Telah Mengerti</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath86" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath86" startOffset="25%">Tak Kan Hilang</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath87" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath87" startOffset="25%">Hitam Putih</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath88" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath88" startOffset="25%">kids</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#86198f; --c2:#d946ef;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath89" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath89" startOffset="25%">Berakhir di Aku</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath90" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath90" startOffset="25%">Rasakan Nikmatnya Hidup</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath91" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath91" startOffset="25%">Rabun Jauh</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:6.9s; animation-delay:-0.7s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath92" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath92" startOffset="25%">Sesi Potret</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:7.6s; animation-delay:-1.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#334155; --c2:#94a3b8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath93" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath93" startOffset="25%">Dan...</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:8.3s; animation-delay:-1.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#a16207; --c2:#eab308;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath94" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath94" startOffset="25%">Karena Kamu</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:5.5s; animation-delay:-1.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:28s; --c1:#4338ca; --c2:#818cf8;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath95" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath95" startOffset="25%">Nina</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-a" style="animation-duration:6.2s; animation-delay:-2.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:30s; --c1:#166534; --c2:#22c55e;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath96" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath96" startOffset="25%">Kita</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-b" style="animation-duration:6.9s; animation-delay:-2.4s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:32s; --c1:#0f766e; --c2:#2dd4bf;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath97" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath97" startOffset="25%">Sesuatu Di Jogja</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-c" style="animation-duration:7.6s; animation-delay:-2.8s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:20s; --c1:#2e1065; --c2:#7c3aed;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath98" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath98" startOffset="25%">That&#x27;s What I Like</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-d" style="animation-duration:8.3s; animation-delay:-3.1s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:22s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath99" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath99" startOffset="25%">blue</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-e" style="animation-duration:5.5s; animation-delay:-0.0s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:24s; --c1:#b91c1c; --c2:#f87171;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath100" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath100" startOffset="25%">Satu Bulan</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+    </article>
+    <article class="song-card float-f" style="animation-duration:6.2s; animation-delay:-0.3s;">
+      <div class="vinyl-wrap">
+        <div class="vinyl" style="animation-duration:26s; --c1:#86198f; --c2:#d946ef;">
+          <div class="vinyl-grooves"></div>
+          <svg class="vinyl-text-svg" viewBox="0 0 100 100">
+            <defs>
+              <path id="cpath101" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" />
+            </defs>
+            <text class="curved-text">
+              <textPath href="#cpath101" startOffset="25%">Mo Koi Nante Shinai</textPath>
+            </text>
+          </svg>
+          <div class="vinyl-label"></div>
+          <div class="vinyl-hole"></div>
         </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(126deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Rahasia Hati</h3>
-          <p class="song-artist">Element</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(168deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">JH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Jakarta Hari Ini</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(139deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">S</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sadrah</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(169deg, #0c1445 0%, #1e3a8a 48%, #60a5fa 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sekali Lagi</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(155deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">B</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Berisik</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(173deg, #0a1628 0%, #0e7490 48%, #67e8f9 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">C</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Cincin</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(151deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">A</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Asmalibrasi</h3>
-          <p class="song-artist">Soegi Bornean</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(166deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">NL</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Negara Lucu</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(143deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">H</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Hujan</h3>
-          <p class="song-artist">Utopia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(158deg, #1c0a0a 0%, #9f1239 48%, #fb7185 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SH</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sekuat Hatimu</h3>
-          <p class="song-artist">Last Child</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(178deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kerasnya Kota</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(175deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">MW</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Mesin Waktu</h3>
-          <p class="song-artist">Budi Doremi</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(129deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Saat Kau Telah Mengerti</h3>
-          <p class="song-artist">Virgoun</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(130deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Tak Kan Hilang</h3>
-          <p class="song-artist">Budi Doremi</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(120deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">HP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Hitam Putih</h3>
-          <p class="song-artist">Fourtwnty</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(165deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">K</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">kids</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(126deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">BD</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Berakhir di Aku</h3>
-          <p class="song-artist">Nadin Amizah</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(152deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RN</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Rasakan Nikmatnya Hidup</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(151deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">RJ</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Rabun Jauh</h3>
-          <p class="song-artist">Kunto Aji</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(178deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SP</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sesi Potret</h3>
-          <p class="song-artist">Hindia</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(163deg, #0f172a 0%, #334155 48%, #94a3b8 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">D</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Dan...</h3>
-          <p class="song-artist">Sheila on 7</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(131deg, #1c1917 0%, #a16207 48%, #fde047 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">KK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Karena Kamu</h3>
-          <p class="song-artist">Geisha</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(164deg, #1e1b4b 0%, #4338ca 48%, #a5b4fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">N</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Nina</h3>
-          <p class="song-artist">Feast</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(135deg, #052e16 0%, #166534 48%, #4ade80 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">K</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Kita</h3>
-          <p class="song-artist">Sheila on 7</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(130deg, #042f2e 0%, #0f766e 48%, #5eead4 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SD</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Sesuatu Di Jogja</h3>
-          <p class="song-artist">Adhitia Sofyan</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(144deg, #1a0533 0%, #6b21a8 48%, #c084fc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">TW</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">That's What I Like</h3>
-          <p class="song-artist">Bruno Mars</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(153deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">B</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">blue</h3>
-          <p class="song-artist">yung kai</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(129deg, #450a0a 0%, #b91c1c 48%, #fca5a5 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">SB</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Satu Bulan</h3>
-          <p class="song-artist">Bernadya</p>
-        </div>
-        <div class="card-gloss"></div>
-      </div>
-    </article>
-    <article class="song-card">
-      <div class="song-card-inner">
-        <div class="song-cover" style="background: linear-gradient(126deg, #1a0a1e 0%, #86198f 48%, #f0abfc 100%);">
-          <div class="cover-orb o1"></div>
-          <div class="cover-orb o2"></div>
-          <div class="cover-stars"></div>
-          <div class="cover-initials">MK</div>
-          <div class="cover-shine"></div>
-        </div>
-        <div class="song-info">
-          <h3 class="song-title">Mo Koi Nante Shinai</h3>
-          <p class="song-artist">Oda Kazumasa</p>
-        </div>
-        <div class="card-gloss"></div>
       </div>
     </article>
   </div>
