@@ -14,6 +14,10 @@
     }
 
     * { box-sizing: border-box; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: none; }
+    nav a { color: #4B5563; text-decoration: none; }
+    nav a:hover { color: #800020; text-decoration: none; }
 
     body {
       background: #FFFFFF;
@@ -252,6 +256,30 @@
       background: #FFFFFF;
     }
 
+    .btn-outline-maroon {
+      border: 1px solid #E5E7EB;
+      color: #4B5563;
+      background: transparent;
+    }
+    .btn-outline-maroon:hover {
+      border-color: #800020;
+      color: #800020;
+    }
+    .btn-outline-solid {
+      border: 1px solid #800020;
+      color: #800020;
+      background: transparent;
+    }
+    .btn-outline-solid:hover {
+      background: #800020;
+      color: #fff;
+    }
+    .link-maroon {
+      color: #4B5563;
+    }
+    .link-maroon:hover {
+      color: #800020;
+    }
     .btn-glow {
       background: #800020;
       transition: all 0.3s ease;
@@ -689,7 +717,7 @@
         <a href="#contact" class="hover:text-[#800020] transition-colors">Contact</a>
       </div>
       <div class="flex items-center gap-2">
-        <a href="cv.html" class="hidden sm:inline-flex px-5 py-2.5 rounded-full text-sm font-semibold border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all">
+        <a href="cv.html" class="btn-outline-solid hidden sm:inline-flex px-5 py-2.5 rounded-full text-sm font-semibold transition-all">
           View CV
         </a>
 <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">
@@ -724,7 +752,7 @@
 
           <div class="flex items-center gap-3 text-lg md:text-xl flex-wrap">
             <span class="text-[#4B5563]">I specialize in</span>
-            <span id="role-text" class="role-pill">Content Creator</span>
+            <span id="role-text" class="role-pill">Linux</span>
           </div>
 
           <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
@@ -743,11 +771,11 @@
               <i class="fas fa-paper-plane"></i>
               Get In Touch
             </a>
-            <a href="gallery.html" class="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold border border-[#E5E7EB] hover:border-[#800020] hover:text-[#800020] text-[#4B5563] transition-all">
+            <a href="gallery.html" class="btn-outline-maroon inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold transition-all">
               View Pictures
               <i class="fas fa-arrow-right text-sm"></i>
             </a>
-            <a href="cv.html" class="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all">
+            <a href="cv.html" class="btn-outline-solid inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl font-semibold transition-all">
               <i class="fas fa-file-alt"></i>
               View CV
             </a>
@@ -787,11 +815,11 @@
 
               <div class="mt-4 text-center px-3 relative z-[2] w-full">
                 <h3 class="badge-name font-display font-bold text-gray-900">Glen Arga Firizky Sinabutar</h3>
-                <p class="text-[#800020] text-sm mt-1 font-semibold">Content Creator</p>
+                <p class="text-[#800020] text-sm mt-1 font-semibold">System Administrator</p>
                 <div class="badge-tags mt-3 flex justify-center gap-1.5 text-xs text-[#4B5563] flex-wrap">
-                  <span class="px-2 py-1 rounded bg-gray-100">Video</span>
-                  <span class="px-2 py-1 rounded bg-gray-100">Photo</span>
-                  <span class="px-2 py-1 rounded bg-gray-100">Music</span>
+                  <span class="px-2 py-1 rounded bg-gray-100">Linux</span>
+                  <span class="px-2 py-1 rounded bg-gray-100">Network</span>
+                  <span class="px-2 py-1 rounded bg-gray-100">TKJ</span>
                 </div>
               </div>
 
@@ -808,8 +836,8 @@
   <!-- MARQUEE -->
   <div class="marquee-wrapper relative z-10">
     <div class="marquee-track">
-      <div class="marquee-item">CONTENT CREATOR <span>•</span> VIDEO EDITOR <span>•</span> PHOTOGRAPHER <span>•</span> NARRATOR <span>•</span> ROBLOX CREATOR <span>•</span> MUSIC COVER <span>•</span></div>
-      <div class="marquee-item">CONTENT CREATOR <span>•</span> VIDEO EDITOR <span>•</span> PHOTOGRAPHER <span>•</span> NARRATOR <span>•</span> ROBLOX CREATOR <span>•</span> MUSIC COVER <span>•</span></div>
+      <div class="marquee-item">LINUX <span>•</span> NETWORKING <span>•</span> SYSTEM ADMINISTRATOR <span>•</span> HARDWARE TECHNICIAN <span>•</span> CYBER SECURITY <span>•</span> LARAVEL <span>•</span> SERVER ADMIN <span>•</span></div>
+      <div class="marquee-item">LINUX <span>•</span> NETWORKING <span>•</span> SYSTEM ADMINISTRATOR <span>•</span> HARDWARE TECHNICIAN <span>•</span> CYBER SECURITY <span>•</span> LARAVEL <span>•</span> SERVER ADMIN <span>•</span></div>
     </div>
   </div>
 
@@ -821,7 +849,7 @@
           <p class="text-[#800020] text-sm font-semibold tracking-[3px] uppercase mb-3">Selected Work</p>
           <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">Featured Projects</h2>
         </div>
-        <a href="gallery.html" class="text-sm text-[#4B5563] hover:text-[#800020] transition flex items-center gap-2">
+        <a href="gallery.html" class="link-maroon text-sm transition flex items-center gap-2">
           View all pictures <i class="fas fa-arrow-right text-xs"></i>
         </a>
       </div>
@@ -829,48 +857,51 @@
       <div class="grid md:grid-cols-3 gap-6">
         <!-- Project 1 -->
         <article class="project-card rounded-3xl overflow-hidden">
-          <div class="h-48 bg-gray-100 relative overflow-hidden">
-            <img src="https://drive.google.com/uc?export=view&id=1IiZ_t_sF0-Gad0MDLb8CvGNoy7aNKCe1" alt="Video Content" class="w-full h-full object-cover hover:scale-105 transition duration-700" onerror="this.src='https://drive.google.com/thumbnail?id=1IiZ_t_sF0-Gad0MDLb8CvGNoy7aNKCe1&sz=w800'">
-            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">Video</span>
+          <div class="h-40 relative overflow-hidden flex items-center justify-center" style="background: linear-gradient(135deg, #1a0a0c, #800020);">
+            <i class="fas fa-server text-white text-4xl opacity-90"></i>
+            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">Server</span>
           </div>
           <div class="p-6">
-            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">Video Content & Editing</h3>
-            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Cinematic short-form and long-form videos edited with CapCut. From storytelling to dynamic cuts.</p>
+            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">Multi-Server Linux Debian</h3>
+            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Implementasi infrastruktur multi-server menggunakan Debian 10. Mengonfigurasi DNS, DHCP, Web Server, Database, FTP, Mail Server, dan routing antar-subnet.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">CapCut</span>
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Editing</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Linux</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Networking</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Server</span>
             </div>
           </div>
         </article>
 
         <!-- Project 2 -->
         <article class="project-card rounded-3xl overflow-hidden">
-          <div class="h-48 bg-gray-100 relative overflow-hidden">
-            <img src="https://drive.google.com/uc?export=view&id=16ryJjze6PqNJtD4ysDs8JdYq220axTfU" alt="Photography" class="w-full h-full object-cover hover:scale-105 transition duration-700" onerror="this.src='https://drive.google.com/thumbnail?id=16ryJjze6PqNJtD4ysDs8JdYq220axTfU&sz=w800'">
-            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">Photo</span>
+          <div class="h-40 relative overflow-hidden flex items-center justify-center" style="background: linear-gradient(135deg, #0f172a, #334155);">
+            <i class="fas fa-laptop-medical text-white text-4xl opacity-90"></i>
+            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">PKL</span>
           </div>
           <div class="p-6">
-            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">Photography & Photographer</h3>
-            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Capturing memorable moments through the lens. Creative compositions and visual storytelling.</p>
+            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">PKL – Hardware & Printer Service</h3>
+            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Praktik Kerja Lapangan di PT Central Multi Computer. Fokus service printer Epson L3210, perbaikan laptop/PC, dan troubleshooting hardware.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Photographer</span>
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Photo</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Hardware</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Printer</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">IT Support</span>
             </div>
           </div>
         </article>
 
         <!-- Project 3 -->
         <article class="project-card rounded-3xl overflow-hidden">
-          <div class="h-48 bg-gray-100 relative overflow-hidden">
-            <img src="https://drive.google.com/uc?export=view&id=1aBlgvW27WGC60M0gvx_RLntfRxyrzhJc" alt="Content & Music" class="w-full h-full object-cover hover:scale-105 transition duration-700" onerror="this.src='https://drive.google.com/thumbnail?id=1aBlgvW27WGC60M0gvx_RLntfRxyrzhJc&sz=w800'">
-            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">Creator</span>
+          <div class="h-40 relative overflow-hidden flex items-center justify-center" style="background: linear-gradient(135deg, #0c1a2e, #1e3a5f);">
+            <i class="fas fa-shield-halved text-white text-4xl opacity-90"></i>
+            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full bg-white/90 text-gray-800 shadow-sm">Security</span>
           </div>
           <div class="p-6">
-            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">Content Creator & Cover Lagu</h3>
-            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Engaging content, song covers, narration, and creative projects across platforms.</p>
+            <h3 class="font-display font-semibold text-xl mb-2 text-gray-900">Network Security Practice</h3>
+            <p class="text-[#4B5563] text-sm leading-relaxed mb-5">Praktik konfigurasi keamanan jaringan menggunakan pfSense, FortiGate, dan iptables, termasuk penerapan firewall dan web filtering.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Narrator</span>
-              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Music</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Security</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">Firewall</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-[#4B5563]">pfSense</span>
             </div>
           </div>
         </article>
@@ -892,7 +923,9 @@
           <div class="flex flex-wrap justify-center gap-3">
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Linux</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Networking</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">System Administrator</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Server Administration</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Hardware Technician</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Hardware Repair</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Fiber Optik</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Cyber Security</span>
@@ -905,7 +938,6 @@
           <div class="flex flex-wrap justify-center gap-3">
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">CapCut</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Canva</span>
-            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Content Creator</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Video Editing</span>
             <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Affiliate Marketing</span>
           </div>
@@ -974,7 +1006,7 @@
 
   <script>
     // Rotating Roles
-    const roles = ["Content Creator", "Video Editor", "Photographer", "Narrator", "Roblox Creator"];
+    const roles = ["Linux", "Networking", "System Administrator", "Hardware Technician", "Cyber Security", "Laravel", "Server Admin"];
     let roleIndex = 0;
     const roleEl = document.getElementById('role-text');
 
