@@ -4,33 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hi, I'm Glen Arga Firizky Sinabutar | Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#FFFFFF',
-            card: '#F8F9FA',
-            border: '#E5E7EB',
-            purple: '#800020',
-            'purple-dark': '#5B0017',
-            lime: '#800020',
-            muted: '#4B5563',
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            display: ['Poppins', 'Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-  <style>
+<style>
     :root {
       --maroon: #800020;
     }
@@ -504,9 +482,193 @@
       background: #FFF1F2;
       color: #800020;
     }
+/* ===== Utility layer (replaces Tailwind CDN) ===== */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.top-0 { top: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+.top-4 { top: 1rem; }
+.left-4 { left: 1rem; }
+.z-10 { z-index: 10; }
+.z-50 { z-index: 50; }
+.z-\[2\] { z-index: 2; }
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.hidden { display: none; }
+.block { display: block; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-shrink-0 { flex-shrink: 0; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+.gap-1\.5 { gap: 0.375rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-2\.5 { gap: 0.625rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-5 { gap: 1.25rem; }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+.gap-12 { gap: 3rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.space-y-8 > * + * { margin-top: 2rem; }
+.space-y-10 > * + * { margin-top: 2.5rem; }
+
+.w-7 { width: 1.75rem; }
+.w-8 { width: 2rem; }
+.w-28 { width: 7rem; }
+.w-full { width: 100%; }
+.h-7 { height: 1.75rem; }
+.h-8 { height: 2rem; }
+.h-28 { height: 7rem; }
+.h-48 { height: 12rem; }
+.h-full { height: 100%; }
+.min-h-screen { min-height: 100vh; }
+.max-w-lg { max-width: 32rem; }
+.max-w-2xl { max-width: 42rem; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-7xl { max-width: 80rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+.py-28 { padding-top: 7rem; padding-bottom: 7rem; }
+.pt-2 { padding-top: 0.5rem; }
+.pt-7 { padding-top: 1.75rem; }
+.pt-24 { padding-top: 6rem; }
+.pb-16 { padding-bottom: 4rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-5 { margin-bottom: 1.25rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mb-14 { margin-bottom: 3.5rem; }
+
+.rounded { border-radius: 0.25rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-2xl { border-radius: 1rem; }
+.rounded-3xl { border-radius: 1.5rem; }
+.rounded-full { border-radius: 9999px; }
+
+.border { border-width: 1px; border-style: solid; }
+.border-2 { border-width: 2px; border-style: solid; }
+.border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+.border-t { border-top-width: 1px; border-top-style: solid; }
+.border-\[\#E5E7EB\] { border-color: #E5E7EB; }
+.border-\[\#800020\] { border-color: #800020; }
+.border-\[\#800020\]\/25 { border-color: rgba(128,0,32,0.25); }
+
+.bg-\[\#800020\] { background-color: #800020; }
+.bg-gray-50 { background-color: #f9fafb; }
+.bg-gray-100 { background-color: #f3f4f6; }
+.bg-white\/90 { background-color: rgba(255,255,255,0.9); }
+
+.text-white { color: #fff; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-900 { color: #111827; }
+.text-\[\#800020\] { color: #800020; }
+.text-\[\#4B5563\] { color: #4B5563; }
+.text-\[\#6B7280\] { color: #6B7280; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+.text-\[10px\] { font-size: 10px; }
+.text-\[11px\] { font-size: 11px; }
+.text-center { text-align: center; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-display { font-family: 'Poppins', 'Inter', system-ui, sans-serif; }
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-wide { letter-spacing: 0.025em; }
+.tracking-\[1\.5px\] { letter-spacing: 1.5px; }
+.tracking-\[3px\] { letter-spacing: 3px; }
+.leading-\[1\.1\] { line-height: 1.1; }
+.leading-relaxed { line-height: 1.625; }
+.uppercase { text-transform: uppercase; }
+
+.object-cover { object-fit: cover; }
+.overflow-hidden { overflow: hidden; }
+.cursor-default { cursor: default; }
+.resize-y { resize: vertical; }
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+.transition { transition-property: color, background-color, border-color, transform, box-shadow, opacity; transition-duration: 150ms; }
+.transition-all { transition-property: all; transition-duration: 150ms; }
+.transition-colors { transition-property: color, background-color, border-color; transition-duration: 150ms; }
+.duration-700 { transition-duration: 700ms; }
+
+.hover\:bg-\[\#800020\]:hover { background-color: #800020; }
+.hover\:border-\[\#800020\]:hover { border-color: #800020; }
+.hover\:text-\[\#800020\]:hover { color: #800020; }
+.hover\:text-white:hover { color: #fff; }
+.hover\:scale-105:hover { transform: scale(1.05); }
+
+.placeholder\:text-gray-400::placeholder { color: #9ca3af; }
+
+@media (min-width: 640px) {
+  .sm\:block { display: block; }
+  .sm\:inline-flex { display: inline-flex; }
+  .sm\:flex-row { flex-direction: row; }
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:gap-3 { gap: 0.75rem; }
+  .sm\:w-9 { width: 2.25rem; }
+  .sm\:h-9 { height: 2.25rem; }
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .sm\:py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+  .sm\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  .sm\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+  .sm\:text-5xl { font-size: 3rem; line-height: 1; }
+}
+@media (min-width: 768px) {
+  .md\:flex { display: flex; }
+  .md\:flex-row { flex-direction: row; }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md\:items-end { align-items: flex-end; }
+  .md\:p-10 { padding: 2.5rem; }
+  .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  .md\:text-5xl { font-size: 3rem; line-height: 1; }
+  .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .lg\:col-span-6 { grid-column: span 6 / span 6; }
+  .lg\:gap-8 { gap: 2rem; }
+}
+
   </style>
 </head>
 <body class="relative">
+<div class="loader-text">Loading</div>
+  </div>
+
   <div class="grid-bg"></div>
 
 
@@ -530,7 +692,7 @@
         <a href="cv.html" class="hidden sm:inline-flex px-5 py-2.5 rounded-full text-sm font-semibold border border-[#800020] text-[#800020] hover:bg-[#800020] hover:text-white transition-all">
           View CV
         </a>
-        <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">
+<button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -724,20 +886,30 @@
         <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">Tools & Skills</h2>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">CapCut</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Photographer</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Video</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Content Creator</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Narrator</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Discord</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Gemini</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">ChatGPT</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Grok</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Claude AI</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Roblox Creator</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Editing</span>
-        <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Cover Lagu</span>
+      <div class="max-w-4xl mx-auto space-y-10">
+        <div>
+          <h3 class="text-center text-sm font-semibold tracking-[2px] uppercase text-[#800020] mb-4">Technical Skills</h3>
+          <div class="flex flex-wrap justify-center gap-3">
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Linux</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Networking</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Server Administration</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Hardware Repair</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Fiber Optik</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Cyber Security</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Laravel</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-center text-sm font-semibold tracking-[2px] uppercase text-[#800020] mb-4">Creative & Digital Skills</h3>
+          <div class="flex flex-wrap justify-center gap-3">
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">CapCut</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Canva</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Content Creator</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Video Editing</span>
+            <span class="skill-pill px-5 py-2.5 rounded-full text-sm font-medium cursor-default">Affiliate Marketing</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -887,6 +1059,6 @@
         });
       });
     })();
-  </script>
+</script>
 </body>
 </html>
